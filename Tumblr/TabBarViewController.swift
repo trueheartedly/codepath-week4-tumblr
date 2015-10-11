@@ -22,6 +22,7 @@ class TabBarViewController: UIViewController, UIViewControllerTransitioningDeleg
     // set variables for each tab view
     var homeViewController: UIViewController!
     var searchViewController: UIViewController!
+    var composeViewController: UIViewController!
     var accountViewController: UIViewController!
     var trendingViewController: UIViewController!
     
@@ -31,6 +32,16 @@ class TabBarViewController: UIViewController, UIViewControllerTransitioningDeleg
     // keep track of selected tab, set to home view initially
     var selectedIndex: Int = 0
     
+    
+    // loading image
+    @IBOutlet weak var imageView: UIImageView!
+    
+    var images: [UIImage]!
+    var animatedImage: UIImage!
+    
+    var loading_1: UIImage!
+    var loading_2: UIImage!
+    var loading_3: UIImage!
     
 
     
@@ -45,6 +56,7 @@ class TabBarViewController: UIViewController, UIViewControllerTransitioningDeleg
         // instantiate each view controller
         homeViewController = storyboard.instantiateViewControllerWithIdentifier("HomeViewController")
         searchViewController = storyboard.instantiateViewControllerWithIdentifier("SearchViewController")
+        composeViewController = storyboard.instantiateViewControllerWithIdentifier("ComposeViewController")
         accountViewController = storyboard.instantiateViewControllerWithIdentifier("AccountViewController")
         trendingViewController = storyboard.instantiateViewControllerWithIdentifier("TrendingViewController")
         
@@ -57,6 +69,16 @@ class TabBarViewController: UIViewController, UIViewControllerTransitioningDeleg
         // set up button function
         didPressTab(buttons[selectedIndex])
         
+        // loading animation
+        loading_1 = UIImage(named: "loading-1")
+        loading_2 = UIImage(named: "loading-2")
+        loading_3 = UIImage(named: "loading-3")
+        
+        images = [loading_1, loading_2, loading_3]
+        
+        animatedImage = UIImage.animatedImageWithImages(images, duration: 1.0)
+        imageView.image = animatedImage
+
     }
 
 
@@ -93,13 +115,19 @@ class TabBarViewController: UIViewController, UIViewControllerTransitioningDeleg
         contentView.addSubview(currentVC.view)
         
         currentVC.didMoveToParentViewController(self)
-        print("previous screen = \(previousVC)")
-        print("current screen = \(currentVC) and selected index is \(selectedIndex)")
+        //print("previous screen = \(previousVC)")
+        //print("current screen = \(currentVC) and selected index is \(selectedIndex)")
         
         
         // bobbing tooltip
         if selectedIndex == 1 {
             bobbingTooltip.hidden = true
+            
+            // fake loading delay to see loading animation
+            contentView.hidden = true
+            delay(1) {
+                self.contentView.hidden = false
+            }
         } else {
             bobbingTooltip.hidden = false
             UIView.animateWithDuration(1, delay: 0, options: [.Repeat, .Autoreverse], animations: { () -> Void in
@@ -107,16 +135,25 @@ class TabBarViewController: UIViewController, UIViewControllerTransitioningDeleg
                 }, completion: { (Bool) -> Void in
             })
         }
+
         
         
     }
     
+    // delay closure
+    
+    func delay(delay:Double, closure:()->()) {
+        dispatch_after(
+            dispatch_time(
+                DISPATCH_TIME_NOW,
+                Int64(delay * Double(NSEC_PER_SEC))
+            ),
+            dispatch_get_main_queue(), closure)
+    }
     
     
     
-    
-    
-    // custom modal transition
+    // ComposeView custom modal transition
     
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
@@ -162,7 +199,6 @@ class TabBarViewController: UIViewController, UIViewControllerTransitioningDeleg
         }
     }
 
-    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         let destinationVC = segue.destinationViewController as UIViewController
         destinationVC.modalPresentationStyle = UIModalPresentationStyle.Custom

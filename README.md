@@ -1,6 +1,6 @@
 # Tumblr App
 
-This is an iPhone demo application showing the screens of the [Tumblr iOS App](https://itunes.apple.com/us/app/tumblr/id305343404?mt=8). Built using Codepath's [Carousel  Tutorial](http://courses.codepath.com/courses/ios_for_designers/unit/4#!assignment).
+This is an iPhone demo application showing the screens of the [Tumblr iOS App](https://itunes.apple.com/us/app/tumblr/id305343404?mt=8). Built using Codepath's [Tumblr  Tutorial](http://courses.codepath.com/courses/ios_for_designers/unit/4#!assignment).
 
 Time spent: 8 hours spent in total
 

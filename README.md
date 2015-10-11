@@ -11,6 +11,8 @@ Completed user stories:
 * [x]  Optional: Compose screen is faded in while the buttons animate in.
 * [x]  Optional: Login button should show animate the login form over the view controller.
 * [x]  Optional: Discover bubble should bob up and down unless the SearchViewController is tapped.
+* [x]  Optional: Made appropriate screens scrollable.
+* [x]  Optional: Made status bar text white.
 
 ![Video Walkthrough](anim_tumblr.gif)
 
